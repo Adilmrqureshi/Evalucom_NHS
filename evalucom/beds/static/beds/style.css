@@ -1,0 +1,8 @@
+.nhs{
+    background: white url(../../static/beds/images/nhs.png) no-repeat;
+    background-position: center;
+}
+
+p{
+    color:red;
+}
