@@ -1,13 +1,11 @@
 {% load static%}
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!DOCTYPE html>
-
-
 <head>
     <title>Evalucom skills assessment</title>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
 </head>
 <body>
     <nav class="blue darken-3">
@@ -20,13 +18,7 @@
         </div>
     </nav>
     <div class = "container">
-        <h2>Welcome to NHS beds</h2>
-        <form action = "{% url 'beds:new_search' %}" method="post">
-            <input type="text" name="search" placeholder="name of care house" />
-            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-                <i class="material-icons right">send</i>
-            </button>
-        </form>
+        <h2>Welcome to NHS bed vacancy manager</h2>
         {% block content%}
 
         {% endblock content%}
