@@ -12,9 +12,8 @@ class Bed(models.Model):
     
 class Home(models.Model):
     name = models.CharField(max_length=200)
-    vacant_beds = models.IntegerField()
+    vacant_beds = models.IntegerField(null=True)
     beds = models.ForeignKey(Bed, on_delete=models.CASCADE)
-    vacancy_updated = models.DateField(timezone.now())
 
     def __str__(self):
         return self.name

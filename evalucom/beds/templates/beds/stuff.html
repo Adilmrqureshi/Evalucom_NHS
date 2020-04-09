@@ -23,7 +23,7 @@
             <div class="card-body ">
             <h4 class="card-title" id="name">Name: <strong>{{home.1}}</strong></strong></h5>
             <p class="card-text">Bed Vacancies: <strong>{{home.0}}</strong></p>
-            <form action="add_bed/{{home.id}}/" method="POST">
+            <form action="{% url 'beds:add_bed' home.8 %}" method="GET">
                 {% csrf_token%}
                 <div class="row">
                     <div class="col">
@@ -32,7 +32,7 @@
                     <div class="col">
                         {% if home.4 == 0%}
                         {% else%}
-                        <button class="btn waves-effect waves-light  red darken-2" type="submit" name="action">Remove
+                        <button class="btn waves-effect waves-light  red darken-2" type="submit" name="remove">Remove
                             <i class="material-icons right">remove</i>
                         </button>
                         {% endif %}

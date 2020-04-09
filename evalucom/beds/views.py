@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpRequest
 from django.urls import reverse
 
-from .models import Home
+from .models import Home, Bed
 
 # Create your views here.
 def index(request):
@@ -20,20 +20,25 @@ def index(request):
         if 'Residential' in home_beds:
             res_bed = home_beds['Residential']
         else:
-            res_bed = 0
+            res_bed = None
         if 'Residential dementia' in home_beds:
             res_dem = home_beds['Residential dementia']
         else:
-            res_dem = 0
+            res_dem = None
         if 'Nursing' in home_beds:
             nus_bed = home_beds['Nursing']
         else:
-            nus_bed = 0
+            nus_bed = None
         if 'Nursing dementia' in home_beds:
             nus_dem = home_beds['Nursing dementia']
         else:
-            nus_dem = 0
-        home_list.append((home_vacant_beds,home_name, home_id,home_beds,res_bed,res_dem,nus_bed,nus_dem))        
+            nus_dem = None
+        bed = Bed.objects.create(res_beds = res_bed, res_dem_beds = res_dem,nus_beds = nus_bed, nus_dem_beds = nus_dem )
+        home = Home.objects.create(
+            name = home_name, vacant_beds = home_vacant_beds, beds = bed
+        )
+        home_list.append((home_vacant_beds,home_name, home_id,home_beds,res_bed,res_dem,nus_bed,nus_dem, home.pk))        
+        
 
     stuff = {
         'home_list': home_list,
@@ -42,6 +47,8 @@ def index(request):
     return render(request, 'beds/stuff.html',stuff)
 
 def voyage(request, offset):
+    hello = Home.objects.all()
+    hello.delete()
     if 'previous' in request.GET:
         print("next")
         page_number = offset-1
@@ -61,20 +68,26 @@ def voyage(request, offset):
         if 'Residential' in home_beds:
             res_bed = home_beds['Residential']
         else:
-            res_bed = 0
+            res_bed = None
         if 'Residential dementia' in home_beds:
             res_dem = home_beds['Residential dementia']
         else:
-            res_dem = 0
+            res_dem = None
         if 'Nursing' in home_beds:
             nus_bed = home_beds['Nursing']
         else:
-            nus_bed = 0
+            nus_bed = None
         if 'Nursing dementia' in home_beds:
             nus_dem = home_beds['Nursing dementia']
         else:
-            nus_dem = 0
-        home_list.append((home_vacant_beds,home_name, home_id,home_beds,res_bed,res_dem,nus_bed,nus_dem))        
+            nus_dem = None
+        bed = Bed.objects.create(res_beds = res_bed, res_dem_beds = res_dem,nus_beds = nus_bed, nus_dem_beds = nus_dem )
+        home = Home.objects.create(
+            name = home_name, vacant_beds = home_vacant_beds, beds = bed
+        )
+        print(home.name)
+        home_list.append((home_vacant_beds,home_name, home_id,home_beds,res_bed,res_dem,nus_bed,nus_dem, home.pk))      
+        
 
     stuff = {
         'home_list': home_list,
@@ -82,5 +95,7 @@ def voyage(request, offset):
     }
     return render(request, 'beds/stuff.html',stuff)
 
-def add_bed(request, home_id):
-    pass
+def add_bed(request ,home_id):
+    home = Home.objects.get(pk=home_id)
+    return HttpResponseRedirect('/')
+    
