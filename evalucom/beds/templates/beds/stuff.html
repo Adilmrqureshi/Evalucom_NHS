@@ -23,28 +23,30 @@
             <div class="card-body ">
             <h4 class="card-title" id="name">Name: <strong>{{home.1}}</strong></strong></h5>
             <p class="card-text">Bed Vacancies: <strong>{{home.0}}</strong></p>
-            <form action="{% url 'beds:add_bed' home.8 %}" method="GET">
+            <form action="{% url 'beds:add_bed' home.8 %}" method="POST">
                 {% csrf_token%}
+                {% if home.4 != None %}
                 <div class="row">
                     <div class="col">
                         <p>Residential {{home.4}}: </p>
                     </div>
                     <div class="col">
-                        {% if home.4 == 0%}
-                        {% else%}
-                        <button class="btn waves-effect waves-light  red darken-2" type="submit" name="remove">Remove
+                        {% if home.4 == 0 %}
+                        {% else %}
+                        <button class="btn waves-effect waves-light  red darken-2" type="submit" name="remove_res">Remove
                             <i class="material-icons right">remove</i>
                         </button>
                         {% endif %}
                         {% if home.0 == 0 or home.0 == None or home.0 == null%}
                         {% else %}
-                        <button class="btn waves-effect waves-light blue darken-3" type="submit" name="action">Add
+                        <button class="btn waves-effect waves-light blue darken-3" type="submit" name="add_res">Add
                             <i class="material-icons right">add</i>
                         </button>
-    
                         {% endif %}
                     </div>
                 </div>
+                {% endif %}
+                {% if home.5 != None %}
                 <div class="row">
                     <div class="col">
                         <p>Residential Dementia {{home.5}}: </p>
@@ -52,18 +54,20 @@
                     <div class="col">
                         {% if home.5 == 0%}
                         {% else%}
-                        <button class="btn waves-effect waves-light  red darken-2" type="submit" name="action">Remove
+                        <button class="btn waves-effect waves-light  red darken-2" type="submit" name="remove_res_dem">Remove
                             <i class="material-icons right">remove</i>
                         </button>
                         {% endif %}
                         {% if home.0 == 0 or home.0 == None or home.0 == null%}
                         {% else %}
-                        <button class="btn waves-effect waves-light blue darken-3" type="submit" name="action">Add
+                        <button class="btn waves-effect waves-light blue darken-3" type="submit" name="add_res_dem">Add
                             <i class="material-icons right">add</i>
                         </button>
                         {% endif %}
                     </div>
                 </div>
+                {% endif %}
+                {% if home.6 != None %}
                 <div class="row">
                     <div class="col">
                         <p>Nursing {{home.6}}: </p>
@@ -71,19 +75,21 @@
                     <div class="col">
                         {% if home.6 == 0%}
                         {% else%}
-                        <button class="btn waves-effect waves-light  red darken-2" type="submit" name="action">Remove
+                        <button class="btn waves-effect waves-light  red darken-2" type="submit" name="remove_nus">Remove
                             <i class="material-icons right">remove</i>
                         </button>
                         {% endif %}
                         {% if home.0 == 0 or home.0 == None or home.0 == null%}
                         {% else %}
-                        <button class="btn waves-effect waves-light blue darken-3" type="submit" name="action">Add
+                        <button class="btn waves-effect waves-light blue darken-3" type="submit" name="add_nus">Add
                             <i class="material-icons right">add</i>
                         </button>
     
                         {% endif %}
                     </div>
                 </div>
+                {% endif %}
+                {% if home.7 != None %}
                 <div class="row">
                     <div class="col">
                         <p>Nursing Dementia {{home.7}}: </p>
@@ -91,19 +97,20 @@
                     <div class="col">
                         {% if home.7 == 0%}
                         {% else%}
-                        <button class="btn waves-effect waves-light  red darken-2" type="submit" name="action">Remove
+                        <button class="btn waves-effect waves-light  red darken-2" type="submit" name="remove_nus_dem">Remove
                             <i class="material-icons right">remove</i>
                         </button>
                         {% endif %}
                         {% if home.0 == 0 or home.0 == None or home.0 == null%}
                         {% else %}
-                        <button class="btn waves-effect waves-light blue darken-3" type="submit" name="action">Add
+                        <button class="btn waves-effect waves-light blue darken-3" type="submit" name="add_nus_dem">Add
                             <i class="material-icons right">add</i>
                         </button>
     
                         {% endif %}
                     </div>
                 </div>
+                {% endif %}
             </form>
             </div> 
         </div> 

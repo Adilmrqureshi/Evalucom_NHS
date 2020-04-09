@@ -1,5 +1,5 @@
 import requests
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpRequest
 from django.urls import reverse
 
@@ -7,46 +7,44 @@ from .models import Home, Bed
 
 # Create your views here.
 def index(request):
-    page_number = 0
-    response = requests.get('https://skills-assessment.herokuapp.com/api/skills_assessment/?limit=10{}')
-    data = response.json()
-    results = data['results']
+    all_homes = Home.objects.all()
+    print(all_homes)
+    home_in_question = get_object_or_404(Home, name="The Elms")
+    page_number = home_in_question.page_number
     home_list = list()
-    for name in results:
-        home_id = name['id']
-        home_name = name['name']
-        home_beds = name['beds']
-        home_vacant_beds = name['vacant_beds']
+    for home in all_homes:
+        #TODO remember to change this into the actual id given by the API
+        home_id = home.pk
+        home_name = home.name
+        home_beds = home.beds
+        home_vacant_beds = home.vacant_beds
+        # if home_beds.res_beds != None
         if 'Residential' in home_beds:
-            res_bed = home_beds['Residential']
+            res = home_beds.res_beds
         else:
-            res_bed = None
+            res = None
         if 'Residential dementia' in home_beds:
-            res_dem = home_beds['Residential dementia']
+            res_dem = home_beds.res_dem_beds
         else:
             res_dem = None
         if 'Nursing' in home_beds:
-            nus_bed = home_beds['Nursing']
+            nus = home_beds.nus_beds
         else:
-            nus_bed = None
+            nus = None
         if 'Nursing dementia' in home_beds:
-            nus_dem = home_beds['Nursing dementia']
+            nus_dem = home_beds.nus_dem_beds
         else:
             nus_dem = None
-        bed = Bed.objects.create(res_beds = res_bed, res_dem_beds = res_dem,nus_beds = nus_bed, nus_dem_beds = nus_dem )
-        home = Home.objects.create(
-            name = home_name, vacant_beds = home_vacant_beds, beds = bed
-        )
-        home_list.append((home_vacant_beds,home_name, home_id,home_beds,res_bed,res_dem,nus_bed,nus_dem, home.pk))        
-        
-
+        home_list.append((home_vacant_beds,home_name, home_id,home_beds,res_bed,res_dem,nus_bed,nus_dem, home.pk))      
+    
     stuff = {
         'home_list': home_list,
         'page_number': page_number
     }
     return render(request, 'beds/stuff.html',stuff)
 
-def voyage(request, offset):
+def voyage(request, offset = 0):
+    page_number = offset
     hello = Home.objects.all()
     hello.delete()
     if 'previous' in request.GET:
@@ -83,9 +81,8 @@ def voyage(request, offset):
             nus_dem = None
         bed = Bed.objects.create(res_beds = res_bed, res_dem_beds = res_dem,nus_beds = nus_bed, nus_dem_beds = nus_dem )
         home = Home.objects.create(
-            name = home_name, vacant_beds = home_vacant_beds, beds = bed
+            name = home_name, vacant_beds = home_vacant_beds, beds = bed, page_number = page_number
         )
-        print(home.name)
         home_list.append((home_vacant_beds,home_name, home_id,home_beds,res_bed,res_dem,nus_bed,nus_dem, home.pk))      
         
 
@@ -96,6 +93,31 @@ def voyage(request, offset):
     return render(request, 'beds/stuff.html',stuff)
 
 def add_bed(request ,home_id):
-    home = Home.objects.get(pk=home_id)
-    return HttpResponseRedirect('/')
+    home = get_object_or_404(Home, pk=home_id)
+    if "remove_res" in request.GET:
+        home.beds.res_beds -= 1
+        home.save()
+    elif "add_res" in request.GET:
+        home.beds.res_beds += 1
+        home.save()
+    elif "remove_res_dem" in request.GET:
+        home.beds.res_dem_beds -= 1
+        home.save()
+    elif "add_res_dem" in request.GET:
+        home.beds.res_dem_beds += 1
+        home.save()  
+    elif "remove_nus" in request.GET:
+        home.beds.nus_beds -= 1
+        home.save()  
+    elif "add_nus" in request.GET:
+        home.beds.nus_beds += 1
+        home.save()  
+    elif "remove_nus_dem" in request.GET:
+        home.beds.nus_dem_beds -= 1
+        home.save()  
+    elif "add_nus_dem" in request.GET:
+        home.beds.nus_dem_beds += 1
+        home.save()  
+
+    return HttpResponseRedirect(reverse('beds:index'))
     

@@ -4,7 +4,8 @@ from . import views
 
 app_name='beds'
 urlpatterns = [ 
-    path('', views.index, name='index'),
+    path('<int:offset>/', views.voyage, name='voyage'),
+    path('', views.voyage, name='voyage'),
     path('add_bed/<int:home_id>', views.add_bed, name="add_bed"),
-    path('<int:offset>/', views.voyage, name='voyage')
+    path('index', views.index, name="index")
 ]

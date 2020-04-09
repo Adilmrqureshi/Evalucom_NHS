@@ -14,6 +14,7 @@ class Home(models.Model):
     name = models.CharField(max_length=200)
     vacant_beds = models.IntegerField(null=True)
     beds = models.ForeignKey(Bed, on_delete=models.CASCADE)
+    page_number = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
