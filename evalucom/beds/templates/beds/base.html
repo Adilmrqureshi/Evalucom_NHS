@@ -1,0 +1,21 @@
+{% load static%}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    
+<nav class="blue darken-3">
+    <div class="container nav-wrapper #1565c0 ">
+        <div class = "nhs"></div>
+        <a href="/" class="brand-logo">NHS beds</a>
+        <ul id = "nav-mobile" class="right">
+            <li><a href="/">Home</a></li>
+        </ul>
+    </div>
+</nav>
+<div class = "container">
+    <h2>Welcome to NHS bed vacancy manager</h2>
+    {% block content%}
+
+    {% endblock content%}
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
