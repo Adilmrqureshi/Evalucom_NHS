@@ -5,7 +5,7 @@ from django.urls import reverse
 
 from .models import Home, Bed
 
-# Create your views here.
+#This is where the user is rerouted if want to make a change to the amount of vacant beds. 
 def index(request):
     all_homes = Home.objects.all()
     home_list = list()
@@ -42,20 +42,26 @@ def index(request):
     }
     return render(request, 'beds/stuff.html',stuff)
 
+#This is the base view for the application, the data from the API is retireved from here
 def voyage(request, offset = 0):
     page_number = offset
+    #reset the database so that the data base doesnt get over populated
     hello = Home.objects.all()
     hello.delete()
+    #this will change the page
     if 'previous' in request.GET:
         print("next")
         page_number = offset-1
     elif 'next' in request.GET:
         print('hello')
         page_number = offset+1
+    #The url for the API, i change it based on the page number which is set by the user when they jump to and from different pages
     url = 'https://skills-assessment.herokuapp.com/api/skills_assessment/?limit=10&offset={}0'.format(page_number)
+
     response = requests.get(url)
     data = response.json()
     results = data['results']
+    #get all the data from the URL an put into varaibles so that it can be displayed on the webpage
     home_list = list()
     for name in results:
         home_id = int(name['id'].split('-')[1])
@@ -93,6 +99,7 @@ def voyage(request, offset = 0):
     }
     return render(request, 'beds/stuff.html',stuff)
 
+#Changes the amount of bed vacancies
 def add_bed(request ,home_id):
     home = get_object_or_404(Home, id=home_id)
     print(home)
