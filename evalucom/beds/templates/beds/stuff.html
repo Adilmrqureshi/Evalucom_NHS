@@ -23,7 +23,7 @@
             <div class="card-body ">
             <h4 class="card-title" id="name">Name: <strong>{{home.1}}</strong></strong></h5>
             <p class="card-text">Bed Vacancies: <strong>{{home.0}}</strong></p>
-            <form action="{% url 'beds:add_bed' home.8 %}" method="POST">
+            <form action="{% url 'beds:add_bed' home.8 %}" method="GET">
                 {% csrf_token%}
                 {% if home.4 != None %}
                 <div class="row">

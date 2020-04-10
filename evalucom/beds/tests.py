@@ -26,6 +26,8 @@ class DeleteAllHomeRecordsTest(TestCase):
         bye = models.Home.objects.create(
             name = "hello", vacant_beds = 0, beds=hello
         )
+        bye.id = 0
+        print(bye.id)
     
     def test_save_changes_to_models(self):
         """
