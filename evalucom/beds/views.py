@@ -8,11 +8,10 @@ from .models import Home, Bed
 # Create your views here.
 def index(request):
     all_homes = Home.objects.all()
-    home_in_question = get_object_or_404(Home, name="The Elms")
-    page_number = home_in_question.page_number
     home_list = list()
     for home in all_homes:
         home_id = home.id
+        page_number = home.page_number
         home_name = home.name
         home_beds = home.beds
         home_vacant_beds = home.vacant_beds
